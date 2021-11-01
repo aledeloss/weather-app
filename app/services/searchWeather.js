@@ -19,7 +19,7 @@ export default function searchWeather(consulta) {
   const consultarApi = async (consulta) => {
     const appId = "70d074f668b97a3a6b87fea11ded66d4";
 
-    const url = `http://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&units=metric&appid=${appId}`;
+    const url = `http://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&units=metric&appid=${appId}&lang=es`;
 
     try {
       const respuesta = await fetch(url);

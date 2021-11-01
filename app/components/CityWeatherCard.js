@@ -7,47 +7,66 @@ import { StyleSheet, View, Text, Image } from "react-native";
 import searchWeather from "../services/searchWeather";
 
 export default function CityWeatherCard({ ciudadPais }) {
-
   //consultamos la API del Clima
-  const resultado = searchWeather(ciudadPais); 
+  const resultado = searchWeather(ciudadPais);
 
   //obtenemos el nombre de la ciudad, los datos de temperatura y viento, de la respuesta de la API
-  const { name, main, wind } = resultado;
+  const { name, main, weather, wind } = resultado;
 
-  if (!name) return null;
+  if (name) {
+    return (
+      <View style={styles.clima}>
+        <Text style={styles.texto}>{name}</Text>
+        <Text style={[styles.texto, styles.actual]}>
+          {parseInt(main.temp)}
+          <Text style={styles.temperatura}>&#x2103;</Text>
+          <Image
+            style={{ width: 66, height: 58 }}
+            source={{
+              uri: `http://openweathermap.org/img/w/${resultado.weather[0].icon}.png`,
+            }}
+          />
+        </Text>
+        <View>
+          <Text style={styles.texto}>
+            {weather[0].description.toUpperCase()}
+          </Text>
+          <Text style={styles.texto}>
+            Sensación Térmica{" "}
+            <Text style={styles.temperatura}>
+              {parseInt(main.feels_like)} &#x2103;
+            </Text>
+          </Text>
+          <Text style={styles.texto}>
+            Humedad <Text style={styles.temperatura}>{main.humidity}%</Text>
+          </Text>
+          <Text style={styles.texto}>
+            Viento{" "}
+            <Text style={styles.temperatura}>
+              {parseInt(wind.speed * 3.6)} km/h
+            </Text>
+          </Text>
+          <View style={styles.temperaturas}>
+            <Text style={styles.texto}>
+              Min{" "}
+              <Text style={styles.temperatura}>
+                {parseInt(main.temp_min)} &#x2103;
+              </Text>
+            </Text>
 
-  return (
-    <View style={styles.clima}>
-      <Text style={styles.texto}>{name}</Text>
-      <Text style={[styles.texto, styles.actual]}>
-        {parseInt(main.temp)}
-        <Text style={styles.temperatura}>&#x2103;</Text>
-        <Image
-          style={{ width: 66, height: 58 }}
-          source={{
-            uri: `http://openweathermap.org/img/w/${resultado.weather[0].icon}.png`,
-          }}
-        />
-      </Text>
-      <View>
-        <Text style={styles.texto}>
-          Sensación Térmica{" "}
-          <Text style={styles.temperatura}>
-            {parseInt(main.feels_like)} &#x2103;
-          </Text>
-        </Text>
-        <Text style={styles.texto}>
-          Humedad <Text style={styles.temperatura}>{main.humidity}%</Text>
-        </Text>
-        <Text style={styles.texto}>
-          Viento{" "}
-          <Text style={styles.temperatura}>
-            {parseInt(wind.speed * 3.6)}km/h
-          </Text>
-        </Text>
+            <Text style={styles.texto}>
+              Max{" "}
+              <Text style={styles.temperatura}>
+                {parseInt(main.temp_max)} &#x2103;
+              </Text>
+            </Text>
+          </View>
+        </View>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return null;
+  }
 }
 
 const styles = StyleSheet.create({
@@ -68,5 +87,9 @@ const styles = StyleSheet.create({
   temperatura: {
     fontSize: 24,
     fontWeight: "bold",
+  },
+  temperaturas: {
+    flexDirection: "row",
+    justifyContent: "center",
   },
 });
