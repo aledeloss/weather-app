@@ -78,17 +78,3 @@ export default function Navigation() {
     </NavigationContainer>
   );
 }
-function screenOption(route, color) {
-    let iconName;
-    switch (route.name) {
-        case "Inicio":
-            iconName="house-outline"
-            break;
-    
-        default:
-            break;
-    }
-    return(
-        <Icon type="material-commuty" name={iconName} size={22} color={color}/>
-    )
-}
