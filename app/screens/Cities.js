@@ -1,7 +1,5 @@
 import React from "react";
-import { ScrollView, View, Text } from "react-native";
-
-import { CityItem } from "../components/FavoriteItem"
+import { View, Text } from "react-native";
 
 export default function Cities() {
     
