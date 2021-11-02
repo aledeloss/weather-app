@@ -1,15 +1,14 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { ScrollView, View, Text } from "react-native";
 
-import { CityItem } from "../components/CityItem"
+import { CityItem } from "../components/FavoriteItem"
 
 export default function Cities() {
     
     return(
         <View>
             <Text>
-                Hola!
-                <CityItem/>
+                Ciudades!
             </Text>
         </View>
     );
