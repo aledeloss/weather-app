@@ -1,13 +1,10 @@
-import React from "react";
-import {View, Text} from "react-native";
+import React, { useState } from "react";
+import { View, Text } from "react-native";
 
 export default function Favorites() {
-    
-    return(
-        <View>
-            <Text>
-                Mis favoritos...
-            </Text>
-        </View>
-    );
+  return (
+    <View>
+      <Text>ciudad:</Text>
+    </View>
+  );
 }
