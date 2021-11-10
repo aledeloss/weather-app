@@ -69,7 +69,7 @@ export default function SearchCities(){
           
         }}
         query={{
-          key: 'AIzaSyDZrkPzHejNRtTUoYtY6lxts8a-URSGAiY',
+          key: '',
           language: 'es-419',
           components: 'country:ar',
       
