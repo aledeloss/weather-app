@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet } from "react-native"
 import { Icon } from "react-native-elements";
 
-export const CityItem = ({ number, cityName }) => {
+export const FavoriteItem = ({ number, cityName }) => {
 
     const styles = StyleSheet.create({
         cityLine: {

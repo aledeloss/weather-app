@@ -2,6 +2,7 @@ import React from "react";
 import { ScrollView, View, Text } from "react-native";
 
 import { FavoriteItem } from "../components/FavoriteItem"
+import { Buscador } from "../components/Buscador";
 
 export default function Favorites() {
 
@@ -22,6 +23,7 @@ export default function Favorites() {
     
     return(
             <ScrollView>
+                <Buscador />    
                 {
                     favoritesData.map((city, key) => {
                         console.log(city.ciudad)
