@@ -4,11 +4,29 @@ import { ScrollView, View, TouchableHighlight, FlatList } from "react-native";
 import FavoriteItem from "../components/FavoriteItem";
 
 import CityWeatherListItemLatLong from "../components/CityWeatherListItemLatLong"
-import Modal from "../components/Modal";
 import CityWeatherCardLatLong from "../components/CityWeatherCardLatLong";
+import CityWeatherListItem from "../components/CityWeatherListItem";
+import CityWeatherCard from "../components/CityWeatherCard"
+
+import Modal from "../components/Modal";
 
 export default function Favorites() {
   const [favoritesData, setFavoritesData] = useState([
+    {
+      ciudad: "Mar del Plata",
+      pais: "AR"
+    },
+    {
+      ciudad: "Buenos Aires",
+      pais: "AR"
+    },
+    {
+      ciudad: "Miramar",
+      pais: "AR"
+    },
+  ]);
+
+  /*const [favoritesData, setFavoritesData] = useState([
     {
       name: "Mar del Plata",
       lat: -38.0054771,
@@ -24,7 +42,7 @@ export default function Favorites() {
       lat: -38.2703168,
       lng: -57.8394498,
     },
-  ]);
+  ]);*/
 
   const [showModal, setShowModal] = useState(false);
 
@@ -33,7 +51,8 @@ export default function Favorites() {
   const verClimaCiudad = (ciudad) => {
     setShowModal(true);
     //console.log({ ciudad: ciudad.ciudad, pais: ciudad.pais });
-    setCiudad({ lat: ciudad.lat, lng: ciudad.lng });
+    /*setCiudad({ lat: ciudad.lat, lng: ciudad.lng });*/
+    setCiudad({ ciudad: ciudad.ciudad, pais: ciudad.pais });
   };
 
   return (
@@ -46,15 +65,16 @@ export default function Favorites() {
             underlayColor="#DDDDDD"
             onPress={() => verClimaCiudad(item)}
           >
-            <CityWeatherListItemLatLong ciudadPais={item} />
+            <CityWeatherListItem
+            ciudadPais={item} />
           </TouchableHighlight>
         )}
-        keyExtractor={ city => city.id}
+        keyExtractor={ city => city.ciudad}
       />
 
       <View>
         <Modal isVisible={showModal} setIsVisible={setShowModal}>
-          <CityWeatherCardLatLong ciudadPais={ciudad} />
+          <CityWeatherCard ciudadPais={ciudad} />
         </Modal>
         {/*        {favoritesData.map((city) => {
           console.log(city.id, city.ciudad);

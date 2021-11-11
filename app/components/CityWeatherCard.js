@@ -7,7 +7,6 @@ import { StyleSheet, View, Text, Image } from "react-native";
 import searchWeather from "../services/searchWeather";
 import { Icon } from "react-native-elements/dist/icons/Icon";
 
-
 export default function CityWeatherCard({ ciudadPais }) {
   //consultamos la API del Clima
   const resultado = searchWeather(ciudadPais);
@@ -34,36 +33,35 @@ export default function CityWeatherCard({ ciudadPais }) {
             {weather[0].description.toUpperCase()}
           </Text>
           <Text style={styles.texto}>
-            Sensación Térmica{" "}
+            Sensación Térmica:{" "}
             <Text style={styles.temperatura}>
               {parseInt(main.feels_like)} &#x2103;
             </Text>
           </Text>
           <Text style={styles.texto}>
-            Humedad <Text style={styles.temperatura}>{main.humidity}%</Text>
+            Humedad:{" "}<Text style={styles.temperatura}>{main.humidity}%</Text>
           </Text>
           <Text style={styles.texto}>
-            Viento{" "}
+            Viento:{" "}
             <Text style={styles.temperatura}>
-              {parseInt(wind.speed * 3.6)} km/h
               <Icon
-                style={{transform:[{rotate: '45deg'}]}} //wind.deg////////////////
-                name='navigation'
-                type='material-community'
-
+                style={{ transform: [{ rotate: -wind.deg + "deg" }] }} //wind.deg////////////////
+                name="navigation"
+                type="material-community"
               />
+              {" "}{parseInt(wind.speed * 3.6)} km/h
             </Text>
           </Text>
           <View style={styles.temperaturas}>
             <Text style={styles.texto}>
-              Min{" "}
+              Mín:{" "}
               <Text style={styles.temperatura}>
                 {parseInt(main.temp_min)} &#x2103;
               </Text>
             </Text>
 
             <Text style={styles.texto}>
-              Max{" "}
+              Máx:{" "}
               <Text style={styles.temperatura}>
                 {parseInt(main.temp_max)} &#x2103;
               </Text>
