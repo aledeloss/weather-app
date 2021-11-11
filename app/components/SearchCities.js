@@ -49,21 +49,13 @@ export default function SearchCities() {
       const json_value = JSON.stringify(ciudades);
       await AsyncStorage.setItem("ciudades", json_value);
       console.log("Guardar:" + json_value);
-      getData();
+    
     } catch (e) {
       console.log(e);
     }
   };
 
-  const getData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem("ciudades");
-      return console.log(jsonValue != null ? JSON.parse(jsonValue) : null);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
+ 
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete
@@ -83,7 +75,8 @@ export default function SearchCities() {
           });
           setCiudad({
            name: details.address_components[0].long_name,
-           location:details.geometry.location
+           location:details.geometry.location,
+           URL:details.url          
           });
         }}
         query={{
