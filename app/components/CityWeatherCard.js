@@ -5,6 +5,8 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import searchWeather from "../services/searchWeather";
+import { Icon } from "react-native-elements/dist/icons/Icon";
+
 
 export default function CityWeatherCard({ ciudadPais }) {
   //consultamos la API del Clima
@@ -44,6 +46,12 @@ export default function CityWeatherCard({ ciudadPais }) {
             Viento{" "}
             <Text style={styles.temperatura}>
               {parseInt(wind.speed * 3.6)} km/h
+              <Icon
+                style={{transform:[{rotate: '45deg'}]}} //wind.deg////////////////
+                name='navigation'
+                type='material-community'
+
+              />
             </Text>
           </Text>
           <View style={styles.temperaturas}>
