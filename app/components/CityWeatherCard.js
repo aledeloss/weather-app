@@ -2,7 +2,6 @@
 //Utiliza la función para consultar la API del clima.
 //Recibe { ciudad: 'NombreCiudad', pais: 'SiglaPais' }
 
-import React, { useEffect } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import searchWeather from "../services/searchWeather";
 import { Icon } from "react-native-elements/dist/icons/Icon";

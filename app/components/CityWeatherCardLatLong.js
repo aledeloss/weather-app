@@ -2,13 +2,14 @@
 //Utiliza la función para consultar la API del clima.
 //Recibe { ciudad: 'NombreCiudad', pais: 'SiglaPais' }
 
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import searchWeatherLatLong from "../services/searchWeatherLatLong";
+import { Icon } from "react-native-elements/dist/icons/Icon";
 
-export default function CityWeatherCardLatLong({ latLong }) {
+export default function CityWeatherCardLatLong({ ciudad }) {
   //consultamos la API del Clima
-  const resultado = searchWeatherLatLong(latLong);
+  const resultado = searchWeatherLatLong(ciudad);
 
   //obtenemos el nombre de la ciudad, los datos de temperatura y viento, de la respuesta de la API
   const { name, main, weather, wind } = resultado;
@@ -32,30 +33,35 @@ export default function CityWeatherCardLatLong({ latLong }) {
             {weather[0].description.toUpperCase()}
           </Text>
           <Text style={styles.texto}>
-            Sensación Térmica{" "}
+            Sensación Térmica:{" "}
             <Text style={styles.temperatura}>
               {parseInt(main.feels_like)} &#x2103;
             </Text>
           </Text>
           <Text style={styles.texto}>
-            Humedad <Text style={styles.temperatura}>{main.humidity}%</Text>
+            Humedad: <Text style={styles.temperatura}>{main.humidity}%</Text>
           </Text>
           <Text style={styles.texto}>
-            Viento{" "}
+            Viento:{" "}
             <Text style={styles.temperatura}>
-              {parseInt(wind.speed * 3.6)} km/h
+              <Icon
+                style={{ transform: [{ rotate: -wind.deg + "deg" }] }} //wind.deg////////////////
+                name="navigation"
+                type="material-community"
+              />
+              {" "}{parseInt(wind.speed * 3.6)} km/h
             </Text>
           </Text>
           <View style={styles.temperaturas}>
             <Text style={styles.texto}>
-              Min{" "}
+              Mín:{" "}
               <Text style={styles.temperatura}>
                 {parseInt(main.temp_min)} &#x2103;
               </Text>
             </Text>
 
             <Text style={styles.texto}>
-              Max{" "}
+              Máx:{" "}
               <Text style={styles.temperatura}>
                 {parseInt(main.temp_max)} &#x2103;
               </Text>
