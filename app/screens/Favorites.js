@@ -1,31 +1,12 @@
 import React, { useState } from "react";
 import { ScrollView, View, TouchableHighlight, FlatList } from "react-native";
 
-import FavoriteItem from "../components/FavoriteItem";
-
 import CityWeatherListItemLatLong from "../components/CityWeatherListItemLatLong"
 import CityWeatherCardLatLong from "../components/CityWeatherCardLatLong";
-import CityWeatherListItem from "../components/CityWeatherListItem";
-import CityWeatherCard from "../components/CityWeatherCard"
 
 import Modal from "../components/Modal";
 
 export default function Favorites() {
-  /*const [favoritesData, setFavoritesData] = useState([
-    {
-      ciudad: "Mar del Plata",
-      pais: "AR"
-    },
-    {
-      ciudad: "Buenos Aires",
-      pais: "AR"
-    },
-    {
-      ciudad: "Miramar",
-      pais: "AR"
-    },
-  ]);*/
-
   const [favoritesData, setFavoritesData] = useState([
     {
       name: "Mar del Plata",

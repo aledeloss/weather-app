@@ -33,7 +33,7 @@ export default function CityWeatherCardLatLong({ ciudad }) {
             {weather[0].description.toUpperCase()}
           </Text>
           <Text style={styles.texto}>
-            Sensación Térmica:{" "}
+            Sensación Térmica:{"\n"}
             <Text style={styles.temperatura}>
               {parseInt(main.feels_like)} &#x2103;
             </Text>
@@ -45,7 +45,7 @@ export default function CityWeatherCardLatLong({ ciudad }) {
             Viento:{" "}
             <Text style={styles.temperatura}>
               <Icon
-                style={{ transform: [{ rotate: -wind.deg + "deg" }] }} //wind.deg////////////////
+                style={{ transform: [{ rotate: -wind.deg + "deg" }] }}
                 name="navigation"
                 type="material-community"
               />
