@@ -12,14 +12,13 @@ export default function CityWeatherListItemLatLong({ ciudad }) {
   const { name, main } = resultado;
 
   const img = ciudad.img;
-  console.log(img);
+  
   const key = "AIzaSyDZrkPzHejNRtTUoYtY6lxts8a-URSGAiY";
 
   if (name) {
     return (
       <View style={styles.clima}>
         <ImageBackground
-          //`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&${img}&${key}`
           style={{ width: '100%', height: '100%' }}
           resizeMode="cover"
           source={{
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
   },
   texto: {
     color: "#fff",
-    fontSize: 15,
+    fontSize: 25,
     textAlign: "center",
     marginRight: 20,
     backgroundColor: 'rgba(0,0,0,0.3)'
