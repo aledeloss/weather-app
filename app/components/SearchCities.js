@@ -15,77 +15,55 @@ const latitudDelta = 10;
 const longitudeDelta = latitudDelta + width / height;
 
 export default function SearchCities() {
+  
+    useEffect(() => {
+      (async () => {
+        const resultPermissions =
+          await Location.requestForegroundPermissionsAsync();
+        console.log(resultPermissions);
+        const statusPermissions = resultPermissions.status;
+  
+        if (statusPermissions !== "granted") {
+          alert("Tienes que aceptar los permisos de localizacion");
+        } else {
+          const loc = await Location.getCurrentPositionAsync({});
+          setRegion({
+            latitude: loc.coords.latitude,
+            longitude: loc.coords.longitude,
+            latitudeDelta: 0.001,
+            longitudeDelta: 0.001,
+          });
+        }
+      })();
+    }, []);
+
+  const getFavorites = async () => {
+    try {
+      const value = await AsyncStorage.getItem('misCiudades')
+      alert(value)
+      return value != null ? JSON.parse(value) : null
+    } catch(e) {
+      console.error(e)
+    }
+  }
+
   const [region, setRegion] = useState({
     latitude: -34.61315,
     longitude: -58.37723,
     latitudeDelta: latitudDelta,
     longitudeDelta: longitudeDelta,
-  });
+  });  
   const [ciudad, setCiudad] = useState({});
-  const [miCiudad, setMiCiudad] = useState({});
-  const [misCiudades, setMisCiudades] = useState([]);
-  let ciudades = [];
-
-  useEffect(() => {
-    (async () => {
-      const resultPermissions =
-        await Location.requestForegroundPermissionsAsync();
-      console.log(resultPermissions);
-      const statusPermissions = resultPermissions.status;
-
-      if (statusPermissions !== "granted") {
-        alert("Tienes que aceptar los permisos de localizacion");
-      } else {
-        const loc = await Location.getCurrentPositionAsync({});
-        setRegion({
-          latitude: loc.coords.latitude,
-          longitude: loc.coords.longitude,
-          latitudeDelta: 0.001,
-          longitudeDelta: 0.001,
-        });
-      }
-    })();
-  }, []);
+  const [misCiudades, setMisCiudades] = useState(getFavorites);
+  let ciudades = [];  
   const guardarCiudad = async () => {
     try {
-      setMiCiudad(ciudad);
-      setMisCiudades(() => misCiudades.length
-      ? [...misCiudades, miCiudad] : [miCiudad]
-      );
-      const prueba = [
-        {
-          ciudad: "Mar del Plata",
-          pais: "AR"
-        },
-        {
-          ciudad: "Buenos Aires",
-          pais: "AR"
-        },
-        {
-          ciudad: "Miramar",
-          pais: "AR"
-        }
-      ]
-      alert(JSON.stringify(misCiudades))
+      setMisCiudades([...misCiudades, ciudad]);
       await AsyncStorage.setItem("misCiudades", JSON.stringify(misCiudades));
-      await AsyncStorage.setItem("prueba", JSON.stringify(prueba));
-      // ciudades.push(ciudad);
-      // const json_value = JSON.stringify(ciudades);
-      // await AsyncStorage.setItem("ciudades", json_value);
-      // console.log("Guardar:" + json_value);
-    
+      alert(JSON.stringify(misCiudades))    
     } catch (e) {
       console.log(e);
     }
-    // try {
-    //   ciudades.push(ciudad);
-    //   const json_value = JSON.stringify(ciudades);
-    //   await AsyncStorage.setItem("ciudades", json_value);
-    //   console.log("Guardar:" + json_value);
-    
-    // } catch (e) {
-    //   console.log(e);
-    // }
   };
 
  
@@ -98,7 +76,6 @@ export default function SearchCities() {
           rankby: "distance",
         }}
         onPress={(data, details = null) => {
-          // 'details' is provided when fetchDetails = true
           console.log(data, details);
           setRegion({
             latitude: details.geometry.location.lat,
