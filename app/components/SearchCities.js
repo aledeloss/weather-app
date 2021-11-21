@@ -21,8 +21,11 @@ export default function SearchCities() {
     latitudeDelta: latitudDelta,
     longitudeDelta: longitudeDelta,
   });
-  const [ciudad, setCiudad] = useState([]);
+  const [ciudad, setCiudad] = useState({});
+  const [miCiudad, setMiCiudad] = useState({});
+  const [misCiudades, setMisCiudades] = useState([]);
   let ciudades = [];
+
   useEffect(() => {
     (async () => {
       const resultPermissions =
@@ -45,14 +48,44 @@ export default function SearchCities() {
   }, []);
   const guardarCiudad = async () => {
     try {
-      ciudades.push(ciudad);
-      const json_value = JSON.stringify(ciudades);
-      await AsyncStorage.setItem("ciudades", json_value);
-      console.log("Guardar:" + json_value);
+      setMiCiudad(ciudad);
+      setMisCiudades(() => misCiudades.length
+      ? [...misCiudades, miCiudad] : [miCiudad]
+      );
+      const prueba = [
+        {
+          ciudad: "Mar del Plata",
+          pais: "AR"
+        },
+        {
+          ciudad: "Buenos Aires",
+          pais: "AR"
+        },
+        {
+          ciudad: "Miramar",
+          pais: "AR"
+        }
+      ]
+      alert(JSON.stringify(misCiudades))
+      await AsyncStorage.setItem("misCiudades", JSON.stringify(misCiudades));
+      await AsyncStorage.setItem("prueba", JSON.stringify(prueba));
+      // ciudades.push(ciudad);
+      // const json_value = JSON.stringify(ciudades);
+      // await AsyncStorage.setItem("ciudades", json_value);
+      // console.log("Guardar:" + json_value);
     
     } catch (e) {
       console.log(e);
     }
+    // try {
+    //   ciudades.push(ciudad);
+    //   const json_value = JSON.stringify(ciudades);
+    //   await AsyncStorage.setItem("ciudades", json_value);
+    //   console.log("Guardar:" + json_value);
+    
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
  
@@ -74,7 +107,8 @@ export default function SearchCities() {
             longitudeDelta: longitudeDelta,
           });
           setCiudad({
-           name: details.address_components[0].long_name,
+           ciudad: details.address_components[0].long_name,
+           pais: 'AR',
            location:details.geometry.location,
            URL:details.url          
           });

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, View, TouchableHighlight, FlatList } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import FavoriteItem from "../components/FavoriteItem";
 
@@ -25,6 +26,34 @@ export default function Favorites() {
       pais: "AR"
     },
   ]);
+
+  // useEffect(() => {
+    getFavorites();
+    getPrueba();
+  // }, [])
+  
+  getPrueba = async () => {
+    try {
+      const value = await AsyncStorage.getItem('prueba')
+      alert(value)
+      await AsyncStorage.removeItem('prueba');
+      return value != null ? JSON.parse(value) : null
+    } catch(e) {
+      console.error(e)
+    }
+  }
+  
+  getFavorites = async () => {
+    try {
+      const value = await AsyncStorage.getItem('misCiudades')
+      console.log(value)
+      return value != null ? JSON.parse(value) : null
+    } catch(e) {
+      console.error(e)
+    }
+  }
+
+  alert(getFavorites)
 
   /*const [favoritesData, setFavoritesData] = useState([
     {
@@ -61,16 +90,16 @@ export default function Favorites() {
         data={favoritesData}
         renderItem={({item}) => (
           <TouchableHighlight
-            activeOpacity={0.6}
-            underlayColor="#DDDDDD"
-            onPress={() => verClimaCiudad(item)}
+          activeOpacity={0.6}
+          underlayColor="#DDDDDD"
+          onPress={() => verClimaCiudad(item)}
           >
             <CityWeatherListItem
             ciudadPais={item} />
           </TouchableHighlight>
         )}
         keyExtractor={ city => city.ciudad}
-      />
+        />
 
       <View>
         <Modal isVisible={showModal} setIsVisible={setShowModal}>
