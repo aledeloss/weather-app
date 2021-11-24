@@ -6,8 +6,8 @@
 import React, { useState, useEffect } from "react";
 
 export default function searchWeatherLatLong(consulta) {
-  
-  const { lat, lon } = consulta;
+  //console.log(consulta);
+  const { lat, lng, name, img } = consulta;
   
 
   if (lat === "") return '';
@@ -21,7 +21,7 @@ export default function searchWeatherLatLong(consulta) {
   const consultarApi = async (consulta) => {
     const appId = "70d074f668b97a3a6b87fea11ded66d4";
 
-    const url = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${appId}&lang=es`;
+    const url = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&appid=${appId}&lang=es`;
 
     try {
       const respuesta = await fetch(url);
