@@ -25,7 +25,7 @@ export default function CityWeatherListItemLatLong({ ciudad }) {
             uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${img}&key=${key}`,
           }}
         >
-          <Text style={[styles.texto, {width:'100%', paddingTop: 20}]}>{name}</Text>
+          <Text style={[styles.texto, {width:'100%', paddingTop: 10}]}>{name}</Text>
           <Text style={[styles.texto, styles.actual]}>
             {parseInt(main.temp)}
             <Text style={styles.temperatura}>&#x2103;</Text>
@@ -47,19 +47,17 @@ export default function CityWeatherListItemLatLong({ ciudad }) {
 const styles = StyleSheet.create({
   clima: {
     flexDirection: "row",
-    marginBottom: 0,
     alignItems: "center",
+    justifyContent: 'space-around'
   },
   texto: {
-    color: "#fff",
-    fontSize: 25,
+    color: "#ffe",
+    fontSize: 20,
     textAlign: "center",
-    marginRight: 20,
-    backgroundColor: 'rgba(0,0,0,0.3)'
+    backgroundColor: 'rgba(0,0,0,0.1)'
   },
   actual: {
-    fontSize: 70,
-    marginRight: 0,
+    fontSize: 60,
     fontWeight: "bold",
   },
   temperatura: {

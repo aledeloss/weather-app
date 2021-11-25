@@ -33,6 +33,6 @@ export default function searchWeatherLatLong(consulta) {
   };
 
   //para ver la respuesta de la API en consola
-  console.log(respuestaApi);
+  //console.log(respuestaApi);
   return respuestaApi;
 }
