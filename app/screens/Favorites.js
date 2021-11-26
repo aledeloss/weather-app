@@ -7,7 +7,7 @@ import CityWeatherCardLatLong from "../components/CityWeatherCardLatLong";
 
 import Modal from "../components/Modal";
 
-export default function Favorites() {
+export default function Favorites( {navigation} ) {
   const [favoritesData, setFavoritesData] = useState([
     {
       name: "Mar del Plata",
@@ -61,9 +61,9 @@ export default function Favorites() {
     alert("Eliminar?");
   };
 
-  const agregarItem = () => {
+  /*const agregarItem = () => {
     alert("Agregar?");
-  };
+  };*/
 
   const verMapa = () => {
     alert("VerMapa?");
@@ -100,8 +100,8 @@ export default function Favorites() {
         keyExtractor={(city) => city.name}
       />
       
-        <View style={styles.menuSuperior}>
-          <TouchableOpacity onPress={() => agregarItem()}>
+        <View style={styles.menu}>
+          <TouchableOpacity onPress={() => navigation.navigate('cities')}>
             <Icon
               type="material-community"
               name="map-marker-plus"
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   icon: {
     paddingVertical: 20,
   },
-  menuSuperior: {
+  menu: {
     flexDirection: "row",
     position: "absolute",
     bottom: 5,
