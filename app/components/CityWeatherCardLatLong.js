@@ -17,7 +17,7 @@ export default function CityWeatherCardLatLong({ ciudad }) {
   if (name) {
     return (
       <View style={styles.clima}>
-        <Text style={styles.texto}>{name}</Text>
+        <Text style={[styles.texto, styles.name]}>{name}</Text>
         <Text style={[styles.texto, styles.actual]}>
           {parseInt(main.temp)}
           <Text style={styles.temperatura}>&#x2103;</Text>
@@ -29,11 +29,11 @@ export default function CityWeatherCardLatLong({ ciudad }) {
           />
         </Text>
         <View>
-          <Text style={styles.texto}>
+          <Text style={[styles.texto, {marginBottom: 10}]}>
             {weather[0].description.toUpperCase()}
           </Text>
           <Text style={styles.texto}>
-            Sensación Térmica:{"\n"}
+            Sensación Térmica:{" "}
             <Text style={styles.temperatura}>
               {parseInt(main.feels_like)} &#x2103;
             </Text>
@@ -48,6 +48,7 @@ export default function CityWeatherCardLatLong({ ciudad }) {
                 style={{ transform: [{ rotate: -wind.deg + "deg" }] }}
                 name="navigation"
                 type="material-community"
+                color="tomato"
               />
               {" "}{parseInt(wind.speed * 3.6)} km/h
             </Text>
@@ -77,25 +78,31 @@ export default function CityWeatherCardLatLong({ ciudad }) {
 
 const styles = StyleSheet.create({
   clima: {
-    marginBottom: 20,
+    marginBottom: 0,
+    backgroundColor: '#005CA7',
+    paddingVertical: 20,    
   },
   texto: {
-    color: "#000",
-    fontSize: 20,
+    color: "#fff",
+    fontSize: 15,
     textAlign: "center",
-    marginRight: 20,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   actual: {
-    fontSize: 80,
+    fontSize: 70,
     marginRight: 0,
     fontWeight: "bold",
+    fontStyle: 'italic'
   },
   temperatura: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
   },
   temperaturas: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: 'space-around',
   },
 });

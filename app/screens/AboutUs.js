@@ -12,8 +12,7 @@ export default function AboutUs() {
         <Text style={styles.titulo}>Wheather-Up!</Text>
         <Text style={styles.texto}>
           Desarrolladores:{"\n"}- Alejandra De Los Santos (Buenos Aires){"\n"}-
-          Veronica Monzón (Buenos Aires){"\n"}- Pamela Murias Bauza (Buenos
-          Aires){"\n"}- Norberto Llopiz (Mendoza){"\n"}
+          Veronica Monzón (Buenos Aires){"\n"}- Norberto Llopiz (Mendoza){"\n"}
           {"\n"}
           En forma individual hicimos los cursos, investigamos, probamos. Con
           reuniones virtuales y chats, nos repartimos las tareas, hicimos

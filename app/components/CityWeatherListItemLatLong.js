@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.1)'
   },
   actual: {
-    fontSize: 60,
+    fontSize: 30,
     fontWeight: "bold",
   },
   temperatura: {

@@ -70,7 +70,7 @@ export default function Favorites() {
   };
 
   return (
-    <>
+    <View style={styles.container}>
       <FlatList
         data={favoritesData}
         renderItem={({ item }) => (
@@ -99,13 +99,7 @@ export default function Favorites() {
         )}
         keyExtractor={(city) => city.name}
       />
-
-      <View>
-        <Modal isVisible={showModal} setIsVisible={setShowModal}>
-          <CityWeatherCardLatLong ciudad={ciudad} />
-        </Modal>
-      </View>
-      <View style={styles.container}>
+      
         <View style={styles.menuSuperior}>
           <TouchableOpacity onPress={() => agregarItem()}>
             <Icon
@@ -126,8 +120,13 @@ export default function Favorites() {
             />
           </TouchableOpacity>
         </View>
+      
+      <View>
+        <Modal isVisible={showModal} setIsVisible={setShowModal}>
+          <CityWeatherCardLatLong ciudad={ciudad} />
+        </Modal>
       </View>
-    </>
+      </View>
   );
 }
 
@@ -135,6 +134,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row-reverse",
+    backgroundColor: '#005CA7'
   },
   listItem: {
     flexDirection: "row",
@@ -155,9 +155,8 @@ const styles = StyleSheet.create({
   menuSuperior: {
     flexDirection: "row",
     position: "absolute",
-    top: -65,
+    bottom: 5,
     left: 0,
     zIndex: 2,
   },
 });
-
