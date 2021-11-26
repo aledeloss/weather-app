@@ -22,8 +22,8 @@ export default function Modal(props) {
 const styles = StyleSheet.create({
   overlay: {
     height: "auto",
-    width: "90%",
-    backgroundColor: "transparent",
+    width: "85%",
+    backgroundColor: "#005CA7",
     borderWidth: 0,
   },
 });
