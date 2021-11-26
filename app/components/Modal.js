@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   overlay: {
     height: "auto",
     width: "90%",
-    backgroundColor: "#005CA7",
+    backgroundColor: "transparent",
+    borderWidth: 0,
   },
 });

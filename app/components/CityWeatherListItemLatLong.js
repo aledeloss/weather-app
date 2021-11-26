@@ -5,17 +5,18 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ImageBackground } from "react-native";
 import searchWeatherLatLong from "../services/searchWeatherLatLong";
+import Loading from "./Loading";
 
-export default function CityWeatherListItemLatLong({ ciudad }) {
-  //console.log(ciudad);
+export default function CityWeatherListItemLatLong({ciudad}) {
   const resultado = searchWeatherLatLong(ciudad);
-  const { name, main } = resultado;
+  const { name, main } = resultado[0];
+  const isLoading = resultado[1];
 
   const img = ciudad.img;
   
   const key = "AIzaSyDZrkPzHejNRtTUoYtY6lxts8a-URSGAiY";
 
-  if (name) {
+  if (!isLoading) {
     return (
       <View style={styles.clima}>
         <ImageBackground
@@ -32,7 +33,7 @@ export default function CityWeatherListItemLatLong({ ciudad }) {
             <Image
               style={{ width: 100, height: 58 }}
               source={{
-                uri: `http://openweathermap.org/img/w/${resultado.weather[0].icon}.png`,
+                uri: `http://openweathermap.org/img/w/${resultado[0].weather[0].icon}.png`,
               }}
             />
           </Text>
@@ -40,7 +41,7 @@ export default function CityWeatherListItemLatLong({ ciudad }) {
       </View>
     );
   } else {
-    return null;
+    return <Loading isVisible={true}/>;
   }
 }
 

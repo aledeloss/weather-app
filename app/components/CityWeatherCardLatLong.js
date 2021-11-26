@@ -6,15 +6,17 @@ import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import searchWeatherLatLong from "../services/searchWeatherLatLong";
 import { Icon } from "react-native-elements/dist/icons/Icon";
+import Loading from "./Loading";
 
 export default function CityWeatherCardLatLong({ ciudad }) {
   //consultamos la API del Clima
   const resultado = searchWeatherLatLong(ciudad);
 
   //obtenemos el nombre de la ciudad, los datos de temperatura y viento, de la respuesta de la API
-  const { name, main, weather, wind } = resultado;
+  const { name, main, weather, wind } = resultado[0];
+  const isLoading = resultado[1];
 
-  if (name) {
+  if (!isLoading) {
     return (
       <View style={styles.clima}>
         <Text style={[styles.texto, styles.name]}>{name}</Text>
@@ -24,7 +26,7 @@ export default function CityWeatherCardLatLong({ ciudad }) {
           <Image
             style={{ width: 66, height: 58 }}
             source={{
-              uri: `http://openweathermap.org/img/w/${resultado.weather[0].icon}.png`,
+              uri: `http://openweathermap.org/img/w/${resultado[0].weather[0].icon}.png`,
             }}
           />
         </Text>
@@ -72,7 +74,7 @@ export default function CityWeatherCardLatLong({ ciudad }) {
       </View>
     );
   } else {
-    return null;
+    return <Loading isVisible={true}/>;
   }
 }
 
