@@ -4,7 +4,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { Icon } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function SearchCities({ navigation }) {
+export default function PlacesAutocomplete(props) {
   const [userSelection, setUserSelection] = useState("");
 
   const [favoritesCities, setFavoritesCities] = useState([]);
@@ -30,11 +30,12 @@ export default function SearchCities({ navigation }) {
 
       console.log(favoritesCities);
 
-      Alert.alert("Muy bien!", "La ciudad seleccionada se agregó a tu lista de Favoritos", [{ text: "Ok" }]);
+      navigation.navigate("favorites");
 
       //saveStorage(city);
     }
   };
+
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete
