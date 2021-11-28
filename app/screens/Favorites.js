@@ -100,6 +100,7 @@ export default function Favorites({ navigation }) {
 
   return (
     <View style={styles.container}>
+      { (favoritesCities) &&
       <FlatList
         data={favoritesCities}
         renderItem={({ item }) => (
@@ -128,7 +129,7 @@ export default function Favorites({ navigation }) {
         )}
         keyExtractor={(city) => city.name}
       />
-
+}
       <View style={styles.menu}>
         <TouchableOpacity onPress={() => searchCity()}>
           <Icon
