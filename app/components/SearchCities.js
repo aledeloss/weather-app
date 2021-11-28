@@ -50,7 +50,7 @@ export default function SearchCities() {
     try {
       const value = await AsyncStorage.getItem("ciudades");
       console.log("lo que esta guardado:" + value);
-      console.log(ciudad);
+      
       if (ciudad.name) {
         if (value) {
           ciudades = JSON.parse(value);

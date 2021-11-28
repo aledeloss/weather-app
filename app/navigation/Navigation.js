@@ -37,11 +37,12 @@ export default function Navigation() {
                   ?"account-multiple"
                   :"account-multiple-outline"
                   break; 
-              case "cities":
+/*              case "cities":
                   iconName=focused
                   ?"home-search"
                   :"home-search-outline"
-                  break;          
+                  break;     
+*/     
               default:
                   break;
           }
@@ -58,11 +59,6 @@ export default function Navigation() {
           component={Home}
           options={{ title: "Inicio" }}
 
-        />
-        <Tab.Screen
-          name="cities"
-          component={Cities}
-          options={{ title: "Ciudades" }}
         />
         <Tab.Screen
           name="favorites"

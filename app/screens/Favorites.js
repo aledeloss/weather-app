@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity, FlatList, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  FlatList,
+  Text,
+} from "react-native";
 import { Icon } from "react-native-elements";
 
 import CityWeatherListItemLatLong from "../components/CityWeatherListItemLatLong";
@@ -9,53 +15,63 @@ import ModalWeatherCard from "../components/ModalWeatherCard";
 import ModalSearchCity from "../components/ModalSearchCity";
 
 import SearchCities from "../components/SearchCities";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Favorites({ navigation }) {
   //definir el state de ciudades favoritas
-  const [favoritesCities, setFavoritesCities] = useState([
-    {
-      id: 1,
-      name: "Mar del Plata",
-      lat: -38.0054771,
-      lng: -57.5426106,
-      img: "Aap_uEBlx6-JNI2y-kfb3xnpLLjtoOgyNu_Jp3gc_VctbiiaPjsLBja7s-fDA1X0dM_28ryx7hQKIhnOlVsEwuxYA3rQLgspWzYgiiyrkjhd8glZZ025-kDLaNSySqijIPFaYqSv2xVL_OZsITCfhbsXGb5Yx2goWzSwWD3xHQNFdGxgnBL_",
-    },
-    {
-      id: 2,
-      name: "Miramar",
-      lat: -38.2703168,
-      lng: -57.8394498,
-      img: "Aap_uEDiziWUBrjXgSq9L4PLe7L3s6halLvf5wQDsHXewH1Q6h0-TfgSaVc38ppd8uFhQbI7TBUxCXfxCaeX80ExzYcTDX7sFKj94lBiKCrkBbgoPkdt-hzjnyxn4gqlowX50HCCqPg86zOD_vyScJMDo1xtDSqJpk8BeZdcpNnxY6FaVMeA",
-    },
-    {
-      id: 3,
-      name: "Villa Gesell",
-      lat: -37.2598939,
-      lng: -56.97141939999999,
-      img: "Aap_uECN7LP10ltU_LPS1mvMxfWqyVSIzmCU4hA4b56aIoYxZl6husMMyvA4ntgEBgnCWLjDRCnrrU1UaB7yOOFU5X3sLTT97wVtC3dc95DNgpGCJ5h5PVgtOplF8iRn-sAlsnwXcpoUvDRlCb4ERKPg28v-MvHIuVc0bnh6VcVn2UHgzJqx",
-    },
-    {
-      id: 4,
-      name: "Pinamar",
-      lat: -37.1145662,
-      lng: -56.86070549999999,
-      img: "Aap_uEAptVZVaoAaSDgM-FAJBM6404Mii-mlsO6pVclI5D5rd1Dsa0rdsD1C7n8rtCRSVk7vLKFp1VBVOLEOHGh_k5j5_k_JI9tyG6RH8C38ibXoF1iueoYXxyY-uxNlEhWszS6vqjImeeEqvi4r7uv8UYHMCZ76E1IsTa5bu1mDvrQmMFBM",
-    },
-    {
-      id: 5,
-      name: "Santa Teresita",
-      lat: -36.7232497,
-      lng: -56.6750185,
-      img: "Aap_uEBwcYShofumi6psZ41h4rt73L03Tzz1gQux2-aqSohFiJm5rxvEXf-Me_sFnJYzegPT_sQVWngnuyrXKiRbnGH04b7veChVN-P1CQC7w6MP5tcFBBYEZaNpyHtPzle0ra3ode5AbWAtmDE0j9Y3PuJ9peixDewkiH3r9Atn2KqlCuPX",
-    },
-  ]);
+  const [favoritesCities, setFavoritesCities] = useState([]);
+
+  // obtener ciudades del storage
+  useEffect(() => {
+    getCities();
+  }, []);
+
+  const getCities = async () => {
+    try {
+      const cities = await AsyncStorage.getItem("ciudades");
+      setFavoritesCities(JSON.parse(cities));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //Eliminar ciudad
+  /*
+  const eliminarCity = (id) => {
+    console.log("Eliminar? ", id);
+    deleteCity(id);
+  };
   const deleteCity = (id) => {
     setFavoritesCities((actualCities) => {
       return actualCities.filter((city) => city.id !== id);
     });
+    deleteCityStorage();
+    
   };
+  const deleteCityStorage = async () => {
+    try {
+      await AsyncStorage.setItem("ciudades", JSON.stringify(favoritesCities));
+      console.log("eliminado");
+      console.log(favoritesCities);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+*/
+  const eliminarCity = async (id) => {
+    console.log("Eliminar? ", id);
+    setFavoritesCities((actualCities) => {
+      return actualCities.filter((city) => city.id !== id);
+    });
+    console.log(favoritesCities);
+    try {
+      await AsyncStorage.setItem("ciudades", JSON.stringify(favoritesCities));
+      console.log("eliminado", id);
+      //console.log(favoritesCities);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const [showModalWeatherCard, setShowModalWeatherCard] = useState(false);
   const [showModalSearchCity, setShowModalSearchCity] = useState(false);
@@ -74,15 +90,10 @@ export default function Favorites({ navigation }) {
     });
   };
 
-  const eliminarCity = (id) => {
-    console.log("Eliminar? ", id);
-    deleteCity(id);
-  };
-
   const searchCity = () => {
     setShowModalSearchCity(true);
-  }
-  
+  };
+
   const verMapa = () => {
     alert("VerMapa?");
   };
@@ -100,7 +111,6 @@ export default function Favorites({ navigation }) {
                 onPress={() => verClimaCiudad(item)}
               >
                 <CityWeatherListItemLatLong ciudad={item} />
-
               </TouchableOpacity>
             </View>
 
@@ -125,7 +135,7 @@ export default function Favorites({ navigation }) {
             type="material-community"
             name="map-marker-plus"
             color="tomato"
-            reverse
+            raised
             //containerStyle={styles.btnAgregarItem}
           />
         </TouchableOpacity>
@@ -134,22 +144,27 @@ export default function Favorites({ navigation }) {
             type="material-community"
             name="map"
             color="tomato"
-            reverse
+            raised
             //containerStyle={styles.btnAgregarItem}
           />
         </TouchableOpacity>
       </View>
 
       <View>
-        <ModalWeatherCard isVisible={showModalWeatherCard} setIsVisible={setShowModalWeatherCard}>
+        <ModalWeatherCard
+          isVisible={showModalWeatherCard}
+          setIsVisible={setShowModalWeatherCard}
+        >
           <CityWeatherCardLatLong ciudad={ciudad} />
         </ModalWeatherCard>
       </View>
 
       <View>
-        <ModalSearchCity isVisible={showModalSearchCity} setIsVisible={setShowModalSearchCity}>
+        <ModalSearchCity
+          isVisible={showModalSearchCity}
+          setIsVisible={setShowModalSearchCity}
+        >
           <SearchCities />
-
         </ModalSearchCity>
       </View>
     </View>
@@ -159,7 +174,7 @@ export default function Favorites({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row-reverse",//
+    flexDirection: "row-reverse", //
     //backgroundColor: "#005CA7",
   },
   listItem: {
