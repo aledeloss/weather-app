@@ -38,6 +38,46 @@ export default function Favorites({ navigation }) {
     }
   };
 
+  const guardarCiudad = async () => {
+    try {
+      const value = await AsyncStorage.getItem("ciudades");
+      console.log("lo que esta guardado:" + value);
+      
+      if (ciudad.name) {
+        if (value) {
+          ciudades = JSON.parse(value);
+          if (
+            ciudades.find(
+              (item) =>
+                item.name.trim().toUpperCase() ===
+                ciudad.name.trim().toUpperCase()
+            )
+          ) {
+            return alert("Valor duplicado.");
+          } else {
+            ciudades.push(ciudad);
+            const json_value = JSON.stringify(ciudades);
+            await AsyncStorage.setItem("ciudades", json_value);
+            const value1 = await AsyncStorage.getItem("ciudades");
+            console.log("lo que esta guardado 1:" + value1);
+            alert('Ciudad guardada en favoritos!')
+          }
+        } else {
+          ciudades.push(ciudad);
+          const json_value = JSON.stringify(ciudades);
+          await AsyncStorage.setItem("ciudades", json_value);
+          const value2 = await AsyncStorage.getItem("ciudades");
+          console.log("lo que esta guardado 2:" + value2);
+        }
+
+        // navigation.navigate('Home');
+        return null;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   //Eliminar ciudad
   /*
   const eliminarCity = (id) => {
@@ -170,7 +210,7 @@ export default function Favorites({ navigation }) {
           isVisible={showModalSearchCity}
           setIsVisible={setShowModalSearchCity}
         >
-          <SearchCities />
+          <SearchCities guardarCiudad={guardarCiudad} />
         </ModalSearchCity>
       </View>
 

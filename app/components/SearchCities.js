@@ -14,7 +14,7 @@ const { width, height } = Dimensions.get("window");
 const latitudDelta = 25;
 const longitudeDelta = latitudDelta + width / height;
 
-export default function SearchCities() {
+export default function SearchCities({guardarCiudad}) {
   const [region, setRegion] = useState({
     latitude: -38.416097,
     longitude: -63.616672,
@@ -46,44 +46,45 @@ export default function SearchCities() {
     })();
   }, []);
 
-  const guardarCiudad = async () => {
-    try {
-      const value = await AsyncStorage.getItem("ciudades");
-      console.log("lo que esta guardado:" + value);
+  // const guardarCiudad = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem("ciudades");
+  //     console.log("lo que esta guardado:" + value);
       
-      if (ciudad.name) {
-        if (value) {
-          ciudades = JSON.parse(value);
-          if (
-            ciudades.find(
-              (item) =>
-                item.name.trim().toUpperCase() ===
-                ciudad.name.trim().toUpperCase()
-            )
-          ) {
-            return alert("Valor duplicado.");
-          } else {
-            ciudades.push(ciudad);
-            const json_value = JSON.stringify(ciudades);
-            await AsyncStorage.setItem("ciudades", json_value);
-            const value1 = await AsyncStorage.getItem("ciudades");
-            console.log("lo que esta guardado 1:" + value1);
-          }
-        } else {
-          ciudades.push(ciudad);
-          const json_value = JSON.stringify(ciudades);
-          await AsyncStorage.setItem("ciudades", json_value);
-          const value2 = await AsyncStorage.getItem("ciudades");
-          console.log("lo que esta guardado 2:" + value2);
-        }
+  //     if (ciudad.name) {
+  //       if (value) {
+  //         ciudades = JSON.parse(value);
+  //         if (
+  //           ciudades.find(
+  //             (item) =>
+  //               item.name.trim().toUpperCase() ===
+  //               ciudad.name.trim().toUpperCase()
+  //           )
+  //         ) {
+  //           return alert("Valor duplicado.");
+  //         } else {
+  //           ciudades.push(ciudad);
+  //           const json_value = JSON.stringify(ciudades);
+  //           await AsyncStorage.setItem("ciudades", json_value);
+  //           const value1 = await AsyncStorage.getItem("ciudades");
+  //           console.log("lo que esta guardado 1:" + value1);
+  //           alert('Ciudad guardada en favoritos!')
+  //         }
+  //       } else {
+  //         ciudades.push(ciudad);
+  //         const json_value = JSON.stringify(ciudades);
+  //         await AsyncStorage.setItem("ciudades", json_value);
+  //         const value2 = await AsyncStorage.getItem("ciudades");
+  //         console.log("lo que esta guardado 2:" + value2);
+  //       }
 
-        // navigation.navigate('Home');
-        return null;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  //       // navigation.navigate('Home');
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
