@@ -7,6 +7,8 @@ import { StyleSheet, View, Text, Image, ImageBackground } from "react-native";
 import searchWeatherLatLong from "../services/searchWeatherLatLong";
 import Loading from "./Loading";
 
+import CityWeatherCardLatLong from "./CityWeatherCardLatLong";
+
 export default function CityWeatherListItemLatLong({ciudad}) {
   const resultado = searchWeatherLatLong(ciudad);
   const { name, main } = resultado[0];
@@ -38,6 +40,7 @@ export default function CityWeatherListItemLatLong({ciudad}) {
             />
           </Text>
         </ImageBackground>
+        
       </View>
     );
   } else {

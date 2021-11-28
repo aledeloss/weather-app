@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { StyleSheet, View, TouchableOpacity, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, TouchableOpacity, FlatList, Text } from "react-native";
 import { Icon } from "react-native-elements";
 
 import CityWeatherListItemLatLong from "../components/CityWeatherListItemLatLong";
 import CityWeatherCardLatLong from "../components/CityWeatherCardLatLong";
 
-import Modal from "../components/Modal";
+import ModalWeatherCard from "../components/ModalWeatherCard";
+import ModalSearchCity from "../components/ModalSearchCity";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import SearchCities from "../components/SearchCities";
 
 export default function Favorites({ navigation }) {
   //definir el state de ciudades favoritas
@@ -56,12 +57,12 @@ export default function Favorites({ navigation }) {
     });
   };
 
-  const [showModal, setShowModal] = useState(false);
-
+  const [showModalWeatherCard, setShowModalWeatherCard] = useState(false);
+  const [showModalSearchCity, setShowModalSearchCity] = useState(false);
   const [ciudad, setCiudad] = useState({});
 
   const verClimaCiudad = (ciudad) => {
-    setShowModal(true);
+    setShowModalWeatherCard(true);
     //console.log({ ciudad: ciudad.ciudad, pais: ciudad.pais });
     //setCiudad({ ciudad: ciudad.ciudad, pais: ciudad.pais });
     setCiudad({
@@ -78,10 +79,10 @@ export default function Favorites({ navigation }) {
     deleteCity(id);
   };
 
-  /*const agregarItem = () => {
-    alert("Agregar?");
-  };*/
-
+  const searchCity = () => {
+    setShowModalSearchCity(true);
+  }
+  
   const verMapa = () => {
     alert("VerMapa?");
   };
@@ -99,6 +100,7 @@ export default function Favorites({ navigation }) {
                 onPress={() => verClimaCiudad(item)}
               >
                 <CityWeatherListItemLatLong ciudad={item} />
+
               </TouchableOpacity>
             </View>
 
@@ -118,7 +120,7 @@ export default function Favorites({ navigation }) {
       />
 
       <View style={styles.menu}>
-        <TouchableOpacity onPress={() => navigation.navigate("cities")}>
+        <TouchableOpacity onPress={() => searchCity()}>
           <Icon
             type="material-community"
             name="map-marker-plus"
@@ -139,9 +141,16 @@ export default function Favorites({ navigation }) {
       </View>
 
       <View>
-        <Modal isVisible={showModal} setIsVisible={setShowModal}>
+        <ModalWeatherCard isVisible={showModalWeatherCard} setIsVisible={setShowModalWeatherCard}>
           <CityWeatherCardLatLong ciudad={ciudad} />
-        </Modal>
+        </ModalWeatherCard>
+      </View>
+
+      <View>
+        <ModalSearchCity isVisible={showModalSearchCity} setIsVisible={setShowModalSearchCity}>
+          <SearchCities />
+
+        </ModalSearchCity>
       </View>
     </View>
   );
@@ -150,7 +159,7 @@ export default function Favorites({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row-reverse",
+    flexDirection: "row-reverse",//
     //backgroundColor: "#005CA7",
   },
   listItem: {
