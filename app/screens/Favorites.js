@@ -13,8 +13,11 @@ import CityWeatherCardLatLong from "../components/CityWeatherCardLatLong";
 
 import ModalWeatherCard from "../components/ModalWeatherCard";
 import ModalSearchCity from "../components/ModalSearchCity";
+import ModalMap from "../components/ModalMap";
 
 import SearchCities from "../components/SearchCities";
+import ViewCitiesMap from "../components/ViewCitiesMap";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Favorites({ navigation }) {
@@ -73,9 +76,11 @@ export default function Favorites({ navigation }) {
     }
   }
 
+  const [ciudad, setCiudad] = useState({});
+
   const [showModalWeatherCard, setShowModalWeatherCard] = useState(false);
   const [showModalSearchCity, setShowModalSearchCity] = useState(false);
-  const [ciudad, setCiudad] = useState({});
+  const [showModalMap, setShowModalMap] = useState(false);
 
   const verClimaCiudad = (ciudad) => {
     setShowModalWeatherCard(true);
@@ -95,7 +100,7 @@ export default function Favorites({ navigation }) {
   };
 
   const verMapa = () => {
-    alert("VerMapa?");
+    setShowModalMap();
   };
 
   return (
@@ -167,6 +172,15 @@ export default function Favorites({ navigation }) {
         >
           <SearchCities />
         </ModalSearchCity>
+      </View>
+
+      <View>
+        <ModalMap
+          isVisible={showModalMap}
+          setIsVisible={setShowModalMap}
+        >
+          <ViewCitiesMap />
+        </ModalMap>
       </View>
     </View>
   );
