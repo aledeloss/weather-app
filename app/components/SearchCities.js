@@ -11,15 +11,16 @@ import * as Location from "expo-location";
 //longitud, imagenes, nombre, pais, etc.
 
 const { width, height } = Dimensions.get("window");
-const latitudDelta = 10;
+const latitudDelta = 25;
 const longitudeDelta = latitudDelta + width / height;
 
 export default function SearchCities() {
   const [region, setRegion] = useState({
-    latitude: -34.61315,
-    longitude: -58.37723,
+    latitude: -38.416097,
+    longitude: -63.616672,
     latitudeDelta: latitudDelta,
     longitudeDelta: longitudeDelta,
+    name:''
   });
   const [ciudad, setCiudad] = useState([]);
   let ciudades = [];
@@ -37,18 +38,42 @@ export default function SearchCities() {
         setRegion({
           latitude: loc.coords.latitude,
           longitude: loc.coords.longitude,
-          latitudeDelta: 0.001,
-          longitudeDelta: 0.001,
+          latitudeDelta: latitudDelta,
+          longitudeDelta: longitudeDelta,
+          name:'Estoy aquí',
         });
       }
     })();
   }, []);
   const guardarCiudad = async () => {
     try {
-      ciudades.push(ciudad);
-      const json_value = JSON.stringify(ciudades);
-      await AsyncStorage.setItem("ciudades", json_value);
-      console.log("Guardar:" + json_value);
+      const value = await AsyncStorage.getItem('ciudades');
+      console.log('lo que esta guardado:'+ value);
+      if (value) {
+        ciudades = JSON.parse(value);
+        if (
+          ciudades.find(
+            item =>
+              item.name.trim().toUpperCase() === ciudad.name.trim().toUpperCase(),
+          )
+        ) {
+          return alert('Valor duplicado.');
+        } else {
+          ciudades.push(ciudad);
+          const json_value = JSON.stringify(ciudades);
+          await AsyncStorage.setItem('ciudades', json_value);
+          const value1 = await AsyncStorage.getItem('ciudades');
+          console.log('lo que esta guardado 1:'+ value1);
+        }
+      } else {
+        ciudades.push(ciudad);
+        const json_value = JSON.stringify(ciudades);
+        await AsyncStorage.setItem('ciudades', json_value);
+        const value2 = await AsyncStorage.getItem('ciudades');
+        console.log('lo que esta guardado 2:'+ value2);
+      }
+
+      // navigation.navigate('Home');
     
     } catch (e) {
       console.log(e);
@@ -72,6 +97,7 @@ export default function SearchCities() {
             longitude: details.geometry.location.lng,
             latitudeDelta: latitudDelta,
             longitudeDelta: longitudeDelta,
+            name: details.address_components[0].short_name,
           });
           setCiudad({
            name: details.address_components[0].long_name,
@@ -83,6 +109,7 @@ export default function SearchCities() {
           key: "AIzaSyDZrkPzHejNRtTUoYtY6lxts8a-URSGAiY",
           language: "es-419",
           components: "country:ar",
+          types:'(cities)',
         }}
         styles={{
           container: {
@@ -105,16 +132,21 @@ export default function SearchCities() {
           latitudeDelta: latitudDelta,
           longitudeDelta: longitudeDelta,
         }}
+        
       >
         <Marker
+          // anchor={{x: 0.5, y: 1}}
+          // centerOffset={{x: 0.5, y: 1}}
           coordinate={{
             latitude: region.latitude,
             longitude: region.longitude,
             latitudeDelta: latitudDelta,
             longitudeDelta: longitudeDelta,
           }}
-          draggable
+          title={region.name}
+        
         />
+        
       </MapView>
       <Icon
         type="material-community"
