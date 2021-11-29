@@ -12,7 +12,7 @@ import {
 import Fondo from "./assets/img/climas.jpg";
 
 export default function App() {
-  const [animated, setAnimated] = useState(true);
+  const [animated, setAnimated] = useState(false);
   const [show] = useState(new Animated.Value(0));
   const [show0] = useState(new Animated.Value(0));
   const [position] = useState(new Animated.Value(-900));
