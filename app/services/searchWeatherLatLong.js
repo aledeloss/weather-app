@@ -14,6 +14,8 @@ export default function searchWeatherLatLong(consulta) {
 
   const [respuestaApi, setRespuestaApi] = useState({});
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     consultarApi();
   }, []);
@@ -27,12 +29,14 @@ export default function searchWeatherLatLong(consulta) {
       const respuesta = await fetch(url);
       const resultado = await respuesta.json();
       setRespuestaApi(resultado);
+      setLoading(false);
     } catch (error) {
       return '';
     }
   };
 
   //para ver la respuesta de la API en consola
-  console.log(respuestaApi);
-  return respuestaApi;
+  //console.log(respuestaApi.name);
+  //console.log(loading);
+  return [respuestaApi, loading];
 }

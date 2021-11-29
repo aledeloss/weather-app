@@ -20,9 +20,19 @@ export default function Modal(props) {
   );
 }
 const styles = StyleSheet.create({
-  overlay: {
+  /*overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
     height: "auto",
-    width: "90%",
-    backgroundColor: "#FFF",
+    width: "85%",
+    backgroundColor: "#005CA7",
+    borderWidth: 0,
+  },*/
+  overlay: {
+    height: "85%",
+    width: "95%",
+    backgroundColor: "#005CA7",
+    borderWidth: 0,
   },
 });

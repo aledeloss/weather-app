@@ -12,13 +12,20 @@ import {
 import Fondo from "./assets/img/climas.jpg";
 
 export default function App() {
-  const [animated, setAnimated] = useState(false);
+  const [animated, setAnimated] = useState(true);
   const [show] = useState(new Animated.Value(0));
-  const [position] = useState(new Animated.Value(-100));
+  const [show0] = useState(new Animated.Value(0));
+  const [position] = useState(new Animated.Value(-900));
   const [font] = useState(new Animated.Value(1));
 
   useEffect(() => {
     Animated.parallel([
+      Animated.timing(show0, {
+        toValue: 1,
+        duration: 1000,
+        //delay: 3000,
+        useNativeDriver: false,
+      }),
       Animated.timing(show, {
         toValue: 1,
         duration: 4000,
@@ -26,7 +33,7 @@ export default function App() {
         useNativeDriver: false,
       }),
       Animated.timing(position, {
-        toValue: 700,
+        toValue: 900,
         duration: 6000,
         useNativeDriver: false,
       }),
@@ -43,7 +50,7 @@ export default function App() {
     return (
       <View style={styles.container}>
           <Animated.Image
-            style={[styles.image, { right: position }]}
+            style={[styles.image, {opacity: show0}, { right: position }]}
             source={Fondo}
           />
           <Animated.Text
@@ -64,15 +71,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-
-    //backgroundColor: '#54A9F4',
-    backgroundColor: 'rgb(129,189,241)'
-    //justifyContent: 'space-around',
+    backgroundColor: '#005CA7'
   },
   image: {
-    width: 900,
-    height: "100%",
-    //resizeMode: "container",
+    width: 2500,
+    height: 925,
   },
   text: {
     position: "absolute",

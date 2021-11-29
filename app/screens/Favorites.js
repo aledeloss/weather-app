@@ -1,70 +1,198 @@
-import React, { useState } from "react";
-import { ScrollView, View, TouchableHighlight, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  FlatList,
+  Text,
+} from "react-native";
+import { Icon } from "react-native-elements";
 
-import CityWeatherListItemLatLong from "../components/CityWeatherListItemLatLong"
+import CityWeatherListItemLatLong from "../components/CityWeatherListItemLatLong";
 import CityWeatherCardLatLong from "../components/CityWeatherCardLatLong";
 
-import Modal from "../components/Modal";
+import ModalWeatherCard from "../components/ModalWeatherCard";
+import ModalSearchCity from "../components/ModalSearchCity";
+import ModalMap from "../components/ModalMap";
 
-export default function Favorites() {
-  const [favoritesData, setFavoritesData] = useState([
-    {
-      name: "Mar del Plata",
-      lat: -38.0054771,
-      lng: -57.5426106,
-      img: "Aap_uEBlx6-JNI2y-kfb3xnpLLjtoOgyNu_Jp3gc_VctbiiaPjsLBja7s-fDA1X0dM_28ryx7hQKIhnOlVsEwuxYA3rQLgspWzYgiiyrkjhd8glZZ025-kDLaNSySqijIPFaYqSv2xVL_OZsITCfhbsXGb5Yx2goWzSwWD3xHQNFdGxgnBL_"
-      
-    },
-    {
-      name: "San Clemente del Tuyu",
-      lat: -36.3688312,
-      lng: -56.7185135,
-      img: "Aap_uEBSAVR5eMQKyELJ3ybgTYiJv5Owxfx5qTFv2QLYlduqAlPtIaz7M9DDsrV5Nlhfy74Ny_zqtqDVdKeH1YZHnwWgERLWGckKgaJdMs4s5x0uav9HgwL_LaUzq2fJJLeuxFEXpMX07W-gbGdMHBBkZz--hLUzdhHgBLSxyepnDq4bYucW"
-    },
-    {
-      name: "Miramar",
-      lat: -38.2703168,
-      lng: -57.8394498,
-      img: "Aap_uEDiziWUBrjXgSq9L4PLe7L3s6halLvf5wQDsHXewH1Q6h0-TfgSaVc38ppd8uFhQbI7TBUxCXfxCaeX80ExzYcTDX7sFKj94lBiKCrkBbgoPkdt-hzjnyxn4gqlowX50HCCqPg86zOD_vyScJMDo1xtDSqJpk8BeZdcpNnxY6FaVMeA"
-    },
-  ]);
+import SearchCities from "../components/SearchCities";
+import ViewCitiesMap from "../components/ViewCitiesMap";
 
-  const [showModal, setShowModal] = useState(false);
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export default function Favorites({ navigation }) {
+  //definir el state de ciudades favoritas
+  const [favoritesCities, setFavoritesCities] = useState([]);
+
+  // obtener ciudades del storage
+  useEffect(() => {
+    getCities();
+  }, []);
+
+  const getCities = async () => {
+    try {
+      const cities = await AsyncStorage.getItem("ciudades");
+      setFavoritesCities(JSON.parse(cities));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Eliminar ciudad
+  
+  const eliminarCity = async (id) => {
+    try {
+      console.log("Eliminar? ", id);
+      console.log(favoritesCities);
+      const citasFiltradas = (actualCities) => {
+        return actualCities.filter((city) => city.id !== id);
+      };
+      setFavoritesCities(citasFiltradas);
+      await AsyncStorage.setItem("ciudades", JSON.stringify(favoritesCities));
+      console.log("eliminado", id);
+      console.log(favoritesCities);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [ciudad, setCiudad] = useState({});
 
+  const [showModalWeatherCard, setShowModalWeatherCard] = useState(false);
+  const [showModalSearchCity, setShowModalSearchCity] = useState(false);
+  const [showModalMap, setShowModalMap] = useState(false);
+
   const verClimaCiudad = (ciudad) => {
-    setShowModal(true);
+    setShowModalWeatherCard(true);
     //console.log({ ciudad: ciudad.ciudad, pais: ciudad.pais });
     //setCiudad({ ciudad: ciudad.ciudad, pais: ciudad.pais });
-    setCiudad({ name:ciudad.name, lat: ciudad.lat, lng: ciudad.lng, img:ciudad.img });    
+    setCiudad({
+      id: ciudad.id,
+      name: ciudad.name,
+      lat: ciudad.lat,
+      lng: ciudad.lng,
+      img: ciudad.img,
+    });
   };
 
-  //console.log(favoritesData[0]);
+  const searchCity = () => {
+    setShowModalSearchCity(true);
+  };
+
+  const verMapa = () => {
+    setShowModalMap();
+  };
 
   return (
-    <>
-      <FlatList
-        data={favoritesData}
-        renderItem={({item}) => (
-          <TouchableHighlight
-            activeOpacity={0.6}
-            underlayColor="#DDDDDD"
-            onPress={() => verClimaCiudad(item)}
-          >
-            <CityWeatherListItemLatLong
-            ciudad={item} />
-          </TouchableHighlight>
-        )}
-        keyExtractor={ city => city.name}
-      />
+    <View style={styles.container}>
+      {favoritesCities && (
+        <FlatList
+          data={favoritesCities}
+          renderItem={({ item }) => (
+            <View style={styles.listItem}>
+              <View style={styles.clima}>
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  underlayColor="#DDDDDD"
+                  onPress={() => verClimaCiudad(item)}
+                >
+                  <CityWeatherListItemLatLong ciudad={item} />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.eliminar}>
+                <TouchableOpacity onPress={() => eliminarCity(item.id)}>
+                  <Icon
+                    type="material-community"
+                    name="trash-can-outline"
+                    color="white"
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+          keyExtractor={(city) => city.name}
+        />
+      )}
+      <View style={styles.menu}>
+        <TouchableOpacity onPress={() => searchCity()}>
+          <Icon
+            type="material-community"
+            name="map-marker-plus"
+            color="tomato"
+            raised
+            //containerStyle={styles.btnAgregarItem}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => verMapa()}>
+          <Icon
+            type="material-community"
+            name="map"
+            color="tomato"
+            raised
+            //containerStyle={styles.btnAgregarItem}
+          />
+        </TouchableOpacity>
+      </View>
 
       <View>
-        <Modal isVisible={showModal} setIsVisible={setShowModal}>
+        <ModalWeatherCard
+          isVisible={showModalWeatherCard}
+          setIsVisible={setShowModalWeatherCard}
+        >
           <CityWeatherCardLatLong ciudad={ciudad} />
-        </Modal>
+        </ModalWeatherCard>
       </View>
-    </>
+
+      <View>
+        <ModalSearchCity
+          isVisible={showModalSearchCity}
+          setIsVisible={setShowModalSearchCity}
+        >
+          <SearchCities
+            favoritesCities={favoritesCities}
+            setFavoritesCities={setFavoritesCities}
+          />
+        </ModalSearchCity>
+      </View>
+
+      <View>
+        <ModalMap isVisible={showModalMap} setIsVisible={setShowModalMap}>
+          <ViewCitiesMap />
+        </ModalMap>
+      </View>
+    </View>
   );
-  
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row-reverse", //
+    //backgroundColor: "#005CA7",
+  },
+  listItem: {
+    flexDirection: "row",
+    borderWidth: 1,
+  },
+  clima: {
+    flex: 7,
+  },
+  eliminar: {
+    flex: 1,
+    justifyContent: "center",
+    right: 0,
+    backgroundColor: "tomato",
+  },
+  icon: {
+    paddingVertical: 20,
+  },
+  menu: {
+    flexDirection: "row",
+    position: "absolute",
+    bottom: 5,
+    left: 0,
+    zIndex: 2,
+  },
+});

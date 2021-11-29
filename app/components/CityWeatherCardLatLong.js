@@ -6,34 +6,36 @@ import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import searchWeatherLatLong from "../services/searchWeatherLatLong";
 import { Icon } from "react-native-elements/dist/icons/Icon";
+import Loading from "./Loading";
 
 export default function CityWeatherCardLatLong({ ciudad }) {
   //consultamos la API del Clima
   const resultado = searchWeatherLatLong(ciudad);
 
   //obtenemos el nombre de la ciudad, los datos de temperatura y viento, de la respuesta de la API
-  const { name, main, weather, wind } = resultado;
+  const { name, main, weather, wind } = resultado[0];
+  const isLoading = resultado[1];
 
-  if (name) {
+  if (!isLoading) {
     return (
       <View style={styles.clima}>
-        <Text style={styles.texto}>{name}</Text>
+        <Text style={[styles.texto, styles.name]}>{name}</Text>
         <Text style={[styles.texto, styles.actual]}>
           {parseInt(main.temp)}
           <Text style={styles.temperatura}>&#x2103;</Text>
           <Image
             style={{ width: 66, height: 58 }}
             source={{
-              uri: `http://openweathermap.org/img/w/${resultado.weather[0].icon}.png`,
+              uri: `http://openweathermap.org/img/w/${resultado[0].weather[0].icon}.png`,
             }}
           />
         </Text>
         <View>
-          <Text style={styles.texto}>
+          <Text style={[styles.texto, {marginBottom: 10}]}>
             {weather[0].description.toUpperCase()}
           </Text>
           <Text style={styles.texto}>
-            Sensación Térmica:{"\n"}
+            Sensación Térmica:{" "}
             <Text style={styles.temperatura}>
               {parseInt(main.feels_like)} &#x2103;
             </Text>
@@ -48,6 +50,7 @@ export default function CityWeatherCardLatLong({ ciudad }) {
                 style={{ transform: [{ rotate: -wind.deg + "deg" }] }}
                 name="navigation"
                 type="material-community"
+                color="tomato"
               />
               {" "}{parseInt(wind.speed * 3.6)} km/h
             </Text>
@@ -71,31 +74,37 @@ export default function CityWeatherCardLatLong({ ciudad }) {
       </View>
     );
   } else {
-    return null;
+    return <Loading isVisible={true}/>;
   }
 }
 
 const styles = StyleSheet.create({
   clima: {
-    marginBottom: 20,
+    marginBottom: 0,
+    backgroundColor: '#005CA7',
+    paddingVertical: 20,    
   },
   texto: {
-    color: "#000",
-    fontSize: 20,
+    color: "#fff",
+    fontSize: 15,
     textAlign: "center",
-    marginRight: 20,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   actual: {
-    fontSize: 80,
+    fontSize: 70,
     marginRight: 0,
     fontWeight: "bold",
+    fontStyle: 'italic'
   },
   temperatura: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
   },
   temperaturas: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: 'space-around',
   },
 });

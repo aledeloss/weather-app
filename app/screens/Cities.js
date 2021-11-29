@@ -7,7 +7,6 @@ export default function Cities() {
   
   return (
     <View>
-      <Text>Buscar Ciudad</Text>
        <SearchCities/>
     </View>
   );
