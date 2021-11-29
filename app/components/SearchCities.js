@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MapView, { Marker } from "react-native-maps";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, Alert } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Icon } from "react-native-elements";
 import * as Permissions from "expo-permissions";
@@ -35,7 +35,7 @@ export default function SearchCities(props) {
       const statusPermissions = resultPermissions.status;
 
       if (statusPermissions !== "granted") {
-        alert("Tienes que aceptar los permisos de localizacion");
+        Alert.alert("Error", "Tienes que aceptar los permisos de localizacion", [{text: "Ok"}]);
       } else {
         const loc = await Location.getCurrentPositionAsync({});
         setRegion({
@@ -64,7 +64,7 @@ export default function SearchCities(props) {
                 ciudad.name.trim().toUpperCase()
             )
           ) {
-            return alert("Valor duplicado.");
+            return Alert.alert("Error","Valor duplicado", [{text: "Ok"}]);
           } else {
             ciudades.push(ciudad);
             setFavoritesCities(ciudades);
@@ -72,6 +72,7 @@ export default function SearchCities(props) {
             await AsyncStorage.setItem("ciudades", json_value);
             const value1 = await AsyncStorage.getItem("ciudades");
             console.log("lo que esta guardado 1:" + value1);
+            Alert.alert("Muy bien!", "La ciudad seleccionada se guardó correctamente", [{text: "Ok"}])
           }
         } else {
           ciudades.push(ciudad);

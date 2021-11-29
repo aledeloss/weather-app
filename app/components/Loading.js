@@ -18,5 +18,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     zIndex: 20,
+    marginTop: 10,
   },
 });

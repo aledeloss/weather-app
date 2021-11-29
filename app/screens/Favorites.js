@@ -38,79 +38,19 @@ export default function Favorites({ navigation }) {
     }
   };
 
-  const guardarCiudad = async () => {
-    try {
-      const value = await AsyncStorage.getItem("ciudades");
-      console.log("lo que esta guardado:" + value);
-      
-      if (ciudad.name) {
-        if (value) {
-          ciudades = JSON.parse(value);
-          if (
-            ciudades.find(
-              (item) =>
-                item.name.trim().toUpperCase() ===
-                ciudad.name.trim().toUpperCase()
-            )
-          ) {
-            return alert("Valor duplicado.");
-          } else {
-            ciudades.push(ciudad);
-            const json_value = JSON.stringify(ciudades);
-            await AsyncStorage.setItem("ciudades", json_value);
-            const value1 = await AsyncStorage.getItem("ciudades");
-            console.log("lo que esta guardado 1:" + value1);
-            alert('Ciudad guardada en favoritos!')
-          }
-        } else {
-          ciudades.push(ciudad);
-          const json_value = JSON.stringify(ciudades);
-          await AsyncStorage.setItem("ciudades", json_value);
-          const value2 = await AsyncStorage.getItem("ciudades");
-          console.log("lo que esta guardado 2:" + value2);
-        }
-
-        // navigation.navigate('Home');
-        return null;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   //Eliminar ciudad
-  /*
-  const eliminarCity = (id) => {
-    console.log("Eliminar? ", id);
-    deleteCity(id);
-  };
-  const deleteCity = (id) => {
-    setFavoritesCities((actualCities) => {
-      return actualCities.filter((city) => city.id !== id);
-    });
-    deleteCityStorage();
-    
-  };
-  const deleteCityStorage = async () => {
-    try {
-      await AsyncStorage.setItem("ciudades", JSON.stringify(favoritesCities));
-      console.log("eliminado");
-      console.log(favoritesCities);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-*/
+  
   const eliminarCity = async (id) => {
-    console.log("Eliminar? ", id);
-    setFavoritesCities((actualCities) => {
-      return actualCities.filter((city) => city.id !== id);
-    });
-    console.log(favoritesCities);
     try {
+      console.log("Eliminar? ", id);
+      console.log(favoritesCities);
+      const citasFiltradas = (actualCities) => {
+        return actualCities.filter((city) => city.id !== id);
+      };
+      setFavoritesCities(citasFiltradas);
       await AsyncStorage.setItem("ciudades", JSON.stringify(favoritesCities));
       console.log("eliminado", id);
-      //console.log(favoritesCities);
+      console.log(favoritesCities);
     } catch (error) {
       console.log(error);
     }
