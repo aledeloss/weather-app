@@ -50,9 +50,9 @@ export default function SearchCities(props) {
   }, []);
 
   const guardarCiudad = async () => {
-    try {
-      const value = await AsyncStorage.getItem("ciudades");
-      console.log("lo que esta guardado:" + value);
+     try {
+       const value = await AsyncStorage.getItem("ciudades");
+       console.log("lo que esta guardado:" + value);
       
       if (ciudad.name) {
         if (value) {
@@ -82,13 +82,13 @@ export default function SearchCities(props) {
           console.log("lo que esta guardado 2:" + value2);
         }
 
-        // navigation.navigate('Home');
-        return null;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+         // navigation.navigate('Home');
+         return null;
+       }
+     } catch (e) {
+       console.log(e);
+     }
+   };
 
   return (
     <View style={styles.container}>
