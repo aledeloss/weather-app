@@ -42,15 +42,14 @@ export default function Favorites({ navigation }) {
   
   const eliminarCity = async (id) => {
     try {
-      console.log("Eliminar? ", id);
-      console.log(favoritesCities);
-      const citasFiltradas = (actualCities) => {
-        return actualCities.filter((city) => city.id !== id);
-      };
-      setFavoritesCities(citasFiltradas);
-      await AsyncStorage.setItem("ciudades", JSON.stringify(favoritesCities));
-      console.log("eliminado", id);
-      console.log(favoritesCities);
+      const citiesStorage = await AsyncStorage.getItem("ciudades");
+      
+      let cities = [];
+      if(citiesStorage !== null) cities = JSON.parse(citiesStorage);
+      const citiesNew = cities.filter(city => city.id !== id);
+      setFavoritesCities(citiesNew);
+      await AsyncStorage.setItem("ciudades", JSON.stringify(citiesNew));
+      
     } catch (error) {
       console.log(error);
     }

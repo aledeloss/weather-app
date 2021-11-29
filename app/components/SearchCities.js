@@ -16,8 +16,6 @@ const longitudeDelta = latitudDelta + width / height;
 
 export default function SearchCities(props) {
   const {favoritesCities, setFavoritesCities} = props;
-  console.log(props);
-
   const [region, setRegion] = useState({
     latitude: -38.416097,
     longitude: -63.616672,
@@ -31,7 +29,6 @@ export default function SearchCities(props) {
     (async () => {
       const resultPermissions =
         await Location.requestForegroundPermissionsAsync();
-      console.log(resultPermissions);
       const statusPermissions = resultPermissions.status;
 
       if (statusPermissions !== "granted") {
@@ -101,7 +98,7 @@ export default function SearchCities(props) {
         }}
         onPress={(data, details = null) => {
           // 'details' is provided when fetchDetails = true
-          console.log(data, details);
+          //console.log(data, details);
           setRegion({
             latitude: details.geometry.location.lat,
             longitude: details.geometry.location.lng,
@@ -128,6 +125,7 @@ export default function SearchCities(props) {
             flex: 0,
             position: "absolute",
             top: 10,
+            left: 5,
             width: "85%",
             zIndex: 1,
           },
@@ -161,7 +159,7 @@ export default function SearchCities(props) {
         type="material-community"
         name="plus"
         color="tomato"
-        reverse
+        raised
         containerStyle={styles.button}
         onPress={guardarCiudad}
       />
