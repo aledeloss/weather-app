@@ -74,7 +74,7 @@ export default function Favorites({ navigation }) {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const [ciudad, setCiudad] = useState({});
 
@@ -105,36 +105,36 @@ export default function Favorites({ navigation }) {
 
   return (
     <View style={styles.container}>
-      { (favoritesCities) &&
-      <FlatList
-        data={favoritesCities}
-        renderItem={({ item }) => (
-          <View style={styles.listItem}>
-            <View style={styles.clima}>
-              <TouchableOpacity
-                activeOpacity={0.6}
-                underlayColor="#DDDDDD"
-                onPress={() => verClimaCiudad(item)}
-              >
-                <CityWeatherListItemLatLong ciudad={item} />
-              </TouchableOpacity>
-            </View>
+      {favoritesCities && (
+        <FlatList
+          data={favoritesCities}
+          renderItem={({ item }) => (
+            <View style={styles.listItem}>
+              <View style={styles.clima}>
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  underlayColor="#DDDDDD"
+                  onPress={() => verClimaCiudad(item)}
+                >
+                  <CityWeatherListItemLatLong ciudad={item} />
+                </TouchableOpacity>
+              </View>
 
-            <View style={styles.eliminar}>
-              <TouchableOpacity onPress={() => eliminarCity(item.id)}>
-                <Icon
-                  type="material-community"
-                  name="trash-can-outline"
-                  color="white"
-                  style={styles.icon}
-                />
-              </TouchableOpacity>
+              <View style={styles.eliminar}>
+                <TouchableOpacity onPress={() => eliminarCity(item.id)}>
+                  <Icon
+                    type="material-community"
+                    name="trash-can-outline"
+                    color="white"
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        )}
-        keyExtractor={(city) => city.name}
-      />
-}
+          )}
+          keyExtractor={(city) => city.name}
+        />
+      )}
       <View style={styles.menu}>
         <TouchableOpacity onPress={() => searchCity()}>
           <Icon
@@ -170,15 +170,15 @@ export default function Favorites({ navigation }) {
           isVisible={showModalSearchCity}
           setIsVisible={setShowModalSearchCity}
         >
-          <SearchCities />
+          <SearchCities
+            favoritesCities={favoritesCities}
+            setFavoritesCities={setFavoritesCities}
+          />
         </ModalSearchCity>
       </View>
 
       <View>
-        <ModalMap
-          isVisible={showModalMap}
-          setIsVisible={setShowModalMap}
-        >
+        <ModalMap isVisible={showModalMap} setIsVisible={setShowModalMap}>
           <ViewCitiesMap />
         </ModalMap>
       </View>

@@ -14,7 +14,10 @@ const { width, height } = Dimensions.get("window");
 const latitudDelta = 25;
 const longitudeDelta = latitudDelta + width / height;
 
-export default function SearchCities() {
+export default function SearchCities(props) {
+  const {favoritesCities, setFavoritesCities} = props;
+  console.log(props);
+
   const [region, setRegion] = useState({
     latitude: -38.416097,
     longitude: -63.616672,
@@ -64,6 +67,7 @@ export default function SearchCities() {
             return alert("Valor duplicado.");
           } else {
             ciudades.push(ciudad);
+            setFavoritesCities(ciudades);
             const json_value = JSON.stringify(ciudades);
             await AsyncStorage.setItem("ciudades", json_value);
             const value1 = await AsyncStorage.getItem("ciudades");
@@ -71,6 +75,7 @@ export default function SearchCities() {
           }
         } else {
           ciudades.push(ciudad);
+          setFavoritesCities(ciudades);
           const json_value = JSON.stringify(ciudades);
           await AsyncStorage.setItem("ciudades", json_value);
           const value2 = await AsyncStorage.getItem("ciudades");

@@ -3,9 +3,6 @@ import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-//GooglePlacesAutocomplete: este componente es el buscador de las ciudades, donde trae todos los datos, latitud,
-//longitud, imagenes, nombre, pais, etc.
-
 const { width, height } = Dimensions.get("window");
 const latitudDelta = 25;
 const longitudeDelta = latitudDelta + width / height;
